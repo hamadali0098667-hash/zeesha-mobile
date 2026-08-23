@@ -15,7 +15,7 @@ const Inventory = () => {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [newProduct, setNewProduct] = useState({ name: '', brand: '', model: '', imeiSku: '', category: '', costPrice: 0, salePrice: 0, stockQty: 0, lowStockThreshold: 5, image: '' });
 
-  useEffect(() => { fetchProducts(); }, []);
+  useEffect(() => { fetchProducts(); axios.get('https://zeesha-mobile.vercel.app/api/settings').then(res => setShopSettings(res.data)).catch(e=>console.log(e)); }, []);
 
   const fetchProducts = async () => {
     try {
