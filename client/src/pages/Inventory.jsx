@@ -85,7 +85,7 @@ const Inventory = () => {
               <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Category</label>
               <select required className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none dark:bg-gray-800 dark:text-white" value={newProduct.category} onChange={e => setNewProduct({...newProduct, category: e.target.value})}>
                 <option value="">Select Category</option>
-                {shopSettings.categories?.map(c => <option key={c} value={c}>{c}</option>)}
+                {(shopSettings?.categories?.length > 0 ? shopSettings.categories : ["Smartphones", "Feature Phones", "Accessories", "Spare Parts"]).map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             
