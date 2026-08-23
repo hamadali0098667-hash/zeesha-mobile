@@ -10,7 +10,7 @@ import { FaShoppingCart, FaWrench, FaUsers } from 'react-icons/fa';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
+  const { user, globalSettings } = useContext(AuthContext);
   const [stats, setStats] = useState({ salesToday: 0, totalStockValue: 0, lowStockItems: 0, salesTrend: [], topProducts: [] });
 
   useEffect(() => {
@@ -41,11 +41,11 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border-l-4 border-indigo-500">
               <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium">Today's Sales</h3>
-              <p className="text-3xl font-bold">${stats.salesToday}</p>
+              <p className="text-3xl font-bold">{globalSettings?.currency || "$"}{stats.salesToday}</p>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border-l-4 border-green-500">
               <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium">Total Stock Value</h3>
-              <p className="text-3xl font-bold">${stats.totalStockValue}</p>
+              <p className="text-3xl font-bold">{globalSettings?.currency || "$"}{stats.totalStockValue}</p>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border-l-4 border-red-500">
               <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium">Low Stock Alerts</h3>

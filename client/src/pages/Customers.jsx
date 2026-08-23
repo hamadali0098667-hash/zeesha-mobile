@@ -1,14 +1,30 @@
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const Customers = () => {
   const { user } = useContext(AuthContext);
   const [customers, setCustomers] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '', address: '' });
+  const [editingCustomer, setEditingCustomer] = useState(null);
 
   useEffect(() => { fetchCustomers(); }, []);
+
+  const handleDelete = async (id) => {
+    if(window.confirm('Delete customer?')) {
+      try {
+        await axios.delete(`https://zeesha-mobile.vercel.app/api/customers/${id}`, { headers: { Authorization: `Bearer ${user.token}` }});
+        fetchCustomers();
+      } catch(err) { alert('Error deleting customer'); }
+    }
+  };
+  const handleEdit = (c) => {
+    setEditingCustomer(c._id);
+    setFormData({ name: c.name, phone: c.phone, address: c.address });
+    setShowAdd(true);
+  };
 
   const fetchCustomers = async () => {
     const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/customers', { headers: { Authorization: `Bearer ${user.token}` }});
@@ -18,8 +34,13 @@ const Customers = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://zeesha-mobile.vercel.app/api/customers', formData, { headers: { Authorization: `Bearer ${user.token}` }});
+      if(editingCustomer) {
+        await axios.put(`https://zeesha-mobile.vercel.app/api/customers/${editingCustomer}`, formData, { headers: { Authorization: `Bearer ${user.token}` }});
+      } else {
+        await axios.post('https://zeesha-mobile.vercel.app/api/customers', formData, { headers: { Authorization: `Bearer ${user.token}` }});
+      }
       setShowAdd(false);
+      setEditingCustomer(null);
       setFormData({name:'', phone:'', address:''});
       fetchCustomers();
     } catch(err) { alert(err.response?.data?.message || err.message || 'Error adding customer'); }
@@ -44,7 +65,7 @@ const Customers = () => {
     <div>
       <div className="flex justify-between mb-6">
         <h1 className="text-2xl font-semibold">Customers Directory</h1>
-        <button onClick={() => setShowAdd(!showAdd)} className="bg-indigo-600 text-white px-4 py-2 rounded">Add Customer</button>
+        <button onClick={() => { setShowAdd(!showAdd); setEditingCustomer(null); setFormData({name:'', phone:'', address:''}); }} className="bg-indigo-600 text-white px-4 py-2 rounded">{showAdd && !editingCustomer ? 'Cancel' : 'Add Customer'}</button>
       </div>
 
       {showAdd && (
@@ -52,7 +73,7 @@ const Customers = () => {
           <input required type="text" placeholder="Name" className="border p-2 flex-1" value={formData.name} onChange={e=>setFormData({...formData, name: e.target.value})} />
           <input required type="text" placeholder="Phone" className="border p-2 flex-1" value={formData.phone} onChange={e=>setFormData({...formData, phone: e.target.value})} />
           <input type="text" placeholder="Address" className="border p-2 flex-1" value={formData.address} onChange={e=>setFormData({...formData, address: e.target.value})} />
-          <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">Save</button>
+          <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">{editingCustomer ? 'Update' : 'Save'}</button>
         </form>
       )}
 
@@ -66,6 +87,10 @@ const Customers = () => {
               </div>
               <div className="text-right text-gray-500 dark:text-gray-400 text-sm">
                 <p>{c.address || 'No Address'}</p>
+                <div className="flex gap-3 justify-end mt-2">
+                  <button onClick={() => handleEdit(c)} className="text-indigo-500 hover:text-indigo-700"><FaEdit /></button>
+                  <button onClick={() => handleDelete(c._id)} className="text-red-500 hover:text-red-700"><FaTrash /></button>
+                </div>
               </div>
             </li>
           ))}

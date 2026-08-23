@@ -30,10 +30,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <div className="h-20 flex items-center justify-between px-4 border-b border-gray-700/50 bg-black/20">
         <div className="flex items-center">
           <FaMobileAlt className="text-3xl text-indigo-400 mr-3" />
-          {shopSettings.shopLogo ? (
+          {shopSettings.shopLogo && shopSettings.sidebarPreference !== 'Text' ? (
             <img src={shopSettings.shopLogo?.startsWith('data:') ? shopSettings.shopLogo : `https://zeesha-mobile.vercel.app${shopSettings.shopLogo}`} alt="Logo" className="h-10 object-contain mr-2" />
           ) : null}
-          <h1 className="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300 uppercase truncate">{shopSettings.shopName}</h1>
+          {shopSettings.sidebarPreference !== 'Logo' && <h1 className="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300 uppercase truncate">{shopSettings.shopName}</h1>}
         </div>
         <button className="lg:hidden text-gray-400 hover:text-white" onClick={() => setSidebarOpen(false)}>
           <FaTimes className="text-2xl" />

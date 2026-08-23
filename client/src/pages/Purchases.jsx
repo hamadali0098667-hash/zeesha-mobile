@@ -1,14 +1,16 @@
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import AuthContext from '../context/AuthContext';
 
 const Purchases = () => {
-  const { user } = useContext(AuthContext);
+  const { user, globalSettings } = useContext(AuthContext);
   const [purchases, setPurchases] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [products, setProducts] = useState([]);
 
   const [showAddSupplier, setShowAddSupplier] = useState(false);
+  const [editingSupplier, setEditingSupplier] = useState(null);
   const [showAddPurchase, setShowAddPurchase] = useState(false);
 
   const [newSupplier, setNewSupplier] = useState({ name: '', contact: '', address: '' });
@@ -36,11 +38,30 @@ const Purchases = () => {
   const handleAddSupplier = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://zeesha-mobile.vercel.app/api/suppliers', newSupplier, { headers: { Authorization: `Bearer ${user.token}` }});
+      if(editingSupplier) {
+        await axios.put(`https://zeesha-mobile.vercel.app/api/suppliers/${editingSupplier}`, newSupplier, { headers: { Authorization: `Bearer ${user.token}` }});
+      } else {
+        await axios.post('https://zeesha-mobile.vercel.app/api/suppliers', newSupplier, { headers: { Authorization: `Bearer ${user.token}` }});
+      }
       setShowAddSupplier(false);
       setNewSupplier({ name: '', contact: '', address: '' });
+      setEditingSupplier(null);
       fetchSuppliers();
     } catch(err) { alert('Error adding supplier'); }
+  };
+
+  const handleDeleteSupplier = async (id) => {
+    if(window.confirm('Delete supplier?')) {
+      try {
+        await axios.delete(`https://zeesha-mobile.vercel.app/api/suppliers/${id}`, { headers: { Authorization: `Bearer ${user.token}` }});
+        fetchSuppliers();
+      } catch(err) { alert('Error deleting supplier'); }
+    }
+  };
+  const handleEditSupplier = (s) => {
+    setEditingSupplier(s._id);
+    setNewSupplier({ name: s.name, contact: s.contact, address: s.address });
+    setShowAddSupplier(true);
   };
 
   const handleAddPurchase = async (e) => {
@@ -69,7 +90,7 @@ const Purchases = () => {
             <input required type="text" placeholder="Name" className="border p-2" value={newSupplier.name} onChange={e=>setNewSupplier({...newSupplier, name: e.target.value})} />
             <input required type="text" placeholder="Contact" className="border p-2" value={newSupplier.contact} onChange={e=>setNewSupplier({...newSupplier, contact: e.target.value})} />
             <input type="text" placeholder="Address" className="border p-2" value={newSupplier.address} onChange={e=>setNewSupplier({...newSupplier, address: e.target.value})} />
-            <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded col-span-1 md:col-span-3">Save Supplier</button>
+            <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded col-span-1 md:col-span-3">{editingSupplier ? 'Update Supplier' : 'Save Supplier'}</button>
           </form>
         )}
 
@@ -78,6 +99,10 @@ const Purchases = () => {
             <li key={s._id} className="py-2 flex justify-between">
               <span className="font-semibold">{s.name} <span className="text-gray-500 dark:text-gray-400 font-normal">({s.contact})</span></span>
               <span className="text-gray-500 dark:text-gray-400">{s.address}</span>
+                <div className="flex gap-2">
+                  <button onClick={() => handleEditSupplier(s)} className="text-indigo-500"><FaEdit /></button>
+                  <button onClick={() => handleDeleteSupplier(s._id)} className="text-red-500"><FaTrash /></button>
+                </div>
             </li>
           ))}
         </ul>
@@ -118,7 +143,7 @@ const Purchases = () => {
               <tr key={p._id}>
                 <td className="px-6 py-4">{new Date(p.date).toLocaleDateString()}</td>
                 <td className="px-6 py-4">{p.supplier?.name}</td>
-                <td className="px-6 py-4 font-bold">${p.totalCost}</td>
+                <td className="px-6 py-4 font-bold">{globalSettings?.currency || "$"}{p.totalCost}</td>
               </tr>
             ))}
           </tbody>

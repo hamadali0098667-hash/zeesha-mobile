@@ -3,10 +3,11 @@ import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 
 const Repairs = () => {
-  const { user } = useContext(AuthContext);
+  const { user, globalSettings } = useContext(AuthContext);
   const [repairs, setRepairs] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [activeTab, setActiveTab] = useState('All');
   const [newRepair, setNewRepair] = useState({ customer: '', deviceDetails: '', issueDescription: '', estimatedCost: 0 });
 
   useEffect(() => {
@@ -39,6 +40,8 @@ const Repairs = () => {
     } catch (err) { alert('Error updating status'); }
   };
 
+  const tabs = ['All', 'Received', 'In Progress', 'Completed', 'Delivered'];
+  const filteredRepairs = activeTab === 'All' ? repairs : repairs.filter(r => r.status.toLowerCase() === activeTab.toLowerCase());
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
@@ -48,6 +51,15 @@ const Repairs = () => {
         </button>
       </div>
 
+      
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        {tabs.map(tab => (
+          <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-2 rounded-lg font-bold whitespace-nowrap transition-colors ${activeTab === tab ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-500'}`}>
+            {tab}
+          </button>
+        ))}
+      </div>
+  
       {showAddForm && (
         <form onSubmit={handleAdd} className="bg-white dark:bg-gray-800 p-4 shadow rounded mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <select required className="border p-2" onChange={e => setNewRepair({...newRepair, customer: e.target.value})}>
@@ -73,7 +85,7 @@ const Repairs = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white dark:bg-gray-800">
-            {repairs.map(r => (
+            {filteredRepairs.map(r => (
               <tr key={r._id}>
                 <td className="px-6 py-4">{r.customer?.name} ({r.customer?.phone})</td>
                 <td className="px-6 py-4">{r.deviceDetails} <br/><span className="text-sm text-gray-500 dark:text-gray-400">{r.issueDescription}</span></td>
@@ -86,7 +98,7 @@ const Repairs = () => {
                     <option value="delivered">Delivered</option>
                   </select>
                 </td>
-                <td className="px-6 py-4">Est: $${r.estimatedCost}</td>
+                <td className="px-6 py-4">Est: {globalSettings?.currency || "$"}{r.estimatedCost}</td>
               </tr>
             ))}
           </tbody>

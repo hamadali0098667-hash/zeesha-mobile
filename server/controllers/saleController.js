@@ -6,7 +6,9 @@ const Product = require('../models/Product');
 // @route   POST /api/sales
 // @access  Private
 const createSale = asyncHandler(async (req, res) => {
-  const { customer, items, subTotal, tax, total, paymentMethod } = req.body;
+  const { customer, items, subTotal, tax,
+      taxRate: taxRate || 0,
+      discount: discount || 0, total, paymentMethod } = req.body;
 
   if (items && items.length === 0) {
     res.status(400);
@@ -31,6 +33,8 @@ const createSale = asyncHandler(async (req, res) => {
     items,
     subTotal,
     tax,
+      taxRate: taxRate || 0,
+      discount: discount || 0,
     total,
     paymentMethod,
     cashier: req.user._id

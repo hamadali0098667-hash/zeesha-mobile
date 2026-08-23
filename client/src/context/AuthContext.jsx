@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [globalSettings, setGlobalSettings] = useState({ currency: ', shopName: 'Zeesha Mobile', shopLogo: '', categories: [] });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     if (userInfo) {
       setUser(JSON.parse(userInfo));
     }
-    setLoading(false);
+    axios.get('https://zeesha-mobile.vercel.app/api/settings').then(res => { if(res.data) setGlobalSettings(res.data); }).catch(console.error).finally(() => setLoading(false));
   }, []);
 
   const login = async (email, password) => {
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, globalSettings, setGlobalSettings }}>
       {!loading && children}
     </AuthContext.Provider>
   );

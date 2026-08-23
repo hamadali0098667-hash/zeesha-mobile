@@ -22,7 +22,17 @@ const updateCustomer = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getCustomers, createCustomer, updateCustomer };
+const deleteCustomer = asyncHandler(async (req, res) => {
+  const customer = await Customer.findById(req.params.id);
+  if (customer) {
+    await Customer.deleteOne({ _id: customer._id });
+    res.json({ message: 'Customer removed' });
+  } else {
+    res.status(404); throw new Error('Customer not found');
+  }
+});
+
+module.exports = { getCustomers, createCustomer, updateCustomer, deleteCustomer };
 const Sale = require('../models/Sale');
 const Repair = require('../models/Repair');
 

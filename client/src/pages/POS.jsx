@@ -5,12 +5,14 @@ import { jsPDF } from 'jspdf';
 import { FaSearch, FaShoppingCart, FaTrash, FaCheckCircle, FaUserPlus, FaFileInvoiceDollar, FaBox } from 'react-icons/fa';
 
 const POS = () => {
-  const { user } = useContext(AuthContext);
+  const { user, globalSettings } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('Cash');
+  const [taxRate, setTaxRate] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [search, setSearch] = useState('');
   const [toast, setToast] = useState('');
 
@@ -43,8 +45,8 @@ const POS = () => {
   const removeFromCart = (id) => setCart(cart.filter(x => x.product !== id));
 
   const subTotal = cart.reduce((acc, item) => acc + item.salePrice * item.quantity, 0);
-  const tax = subTotal * 0.05; 
-  const total = subTotal + tax;
+   
+  
 
   const generateInvoice = (saleData, customerName) => {
     const doc = new jsPDF();
@@ -99,7 +101,7 @@ const POS = () => {
   const handleCheckout = async () => {
     try {
       const { data } = await axios.post('https://zeesha-mobile.vercel.app/api/sales', {
-        customer: selectedCustomer || null, items: cart, subTotal, tax, total, paymentMethod
+        customer: selectedCustomer || null, items: cart, subTotal, tax, taxRate: Number(taxRate) || 0, discount: Number(discount) || 0, total, paymentMethod
       }, { headers: { Authorization: `Bearer ${user.token}` }});
       
       const custName = customers.find(c => c._id === selectedCustomer)?.name;
@@ -146,7 +148,7 @@ const POS = () => {
                   <h3 className="font-bold text-gray-900 dark:text-gray-100 text-lg leading-tight mb-1 group-hover:text-indigo-600 transition-colors truncate">{p.name}</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 truncate">{p.model}</p>
                   <div className="flex justify-between items-end mt-auto">
-                    <span className="font-black text-2xl text-gray-900 dark:text-gray-100">${p.salePrice}</span>
+                    <span className="font-black text-2xl text-gray-900 dark:text-gray-100">{globalSettings?.currency || "$"}{p.salePrice}</span>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${p.stockQty > 0 ? 'bg-indigo-100 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white' : 'bg-gray-100 text-gray-400'} transition-colors`}>+</div>
                   </div>
               </div>
@@ -179,9 +181,9 @@ const POS = () => {
                   <div className="flex justify-between items-end mt-2">
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Qty: {item.quantity}</span>
-                      <span className="text-sm font-medium text-gray-500 dark:text-gray-400">x ${item.salePrice}</span>
+                      <span className="text-sm font-medium text-gray-500 dark:text-gray-400">x {globalSettings?.currency || "$"}{item.salePrice}</span>
                     </div>
-                    <span className="font-black text-lg text-indigo-600">${item.salePrice * item.quantity}</span>
+                    <span className="font-black text-lg text-indigo-600">{globalSettings?.currency || "$"}{item.salePrice * item.quantity}</span>
                   </div>
                 </div>
               ))}
@@ -214,12 +216,28 @@ const POS = () => {
             </div>
           </div>
           
+          
+          <div className="grid grid-cols-2 gap-4 mb-5">
+            <div>
+              <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">Discount Amount</label>
+              <div className="relative">
+                <input type="number" min="0" value={discount} onChange={e => setDiscount(e.target.value)} className="w-full pl-3 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="0.00" />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">Tax Rate (%)</label>
+              <div className="relative">
+                <input type="number" min="0" max="100" value={taxRate} onChange={e => setTaxRate(e.target.value)} className="w-full pl-3 pr-4 py-2.5 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="0" />
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-3 mb-6 bg-gray-50 dark:bg-gray-900 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
-            <div className="flex justify-between text-gray-600 dark:text-gray-400 font-medium"><span>Subtotal</span><span>${subTotal.toFixed(2)}</span></div>
-            <div className="flex justify-between text-gray-600 dark:text-gray-400 font-medium"><span>Tax (5%)</span><span>${tax.toFixed(2)}</span></div>
+            <div className="flex justify-between text-gray-600 dark:text-gray-400 font-medium"><span>Subtotal</span><span>{globalSettings?.currency || "$"}{subTotal.toFixed(2)}</span></div>
+            <div className="flex justify-between text-gray-600 dark:text-gray-400 font-medium"><span>Tax ({taxRate || 0}%)</span><span>{globalSettings?.currency || "$"}{tax.toFixed(2)}</span></div>
             <div className="border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-between items-center">
               <span className="text-lg font-bold text-gray-800 dark:text-gray-200">Total</span>
-              <span className="text-3xl font-black text-indigo-600">${total.toFixed(2)}</span>
+              <span className="text-3xl font-black text-indigo-600">{globalSettings?.currency || "$"}{total.toFixed(2)}</span>
             </div>
           </div>
           

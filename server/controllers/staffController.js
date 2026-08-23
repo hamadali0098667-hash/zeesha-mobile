@@ -66,4 +66,14 @@ const updateStaff = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getStaff, createStaff, updateStaff };
+const deleteStaff = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    await User.deleteOne({ _id: user._id });
+    res.json({ message: 'Staff removed' });
+  } else {
+    res.status(404); throw new Error('User not found');
+  }
+});
+
+module.exports = { getStaff, createStaff, updateStaff, deleteStaff };
