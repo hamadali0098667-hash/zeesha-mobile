@@ -107,10 +107,13 @@ const Inventory = () => {
     }
   };
 
-  const filteredProducts = products.filter(p => 
-    (p.name.toLowerCase().includes(search.toLowerCase()) || p.imeiSku.toLowerCase().includes(search.toLowerCase())) &&
-    (categoryFilter ? p.category === categoryFilter : true)
-  );
+  const filteredProducts = products.filter(p => {
+    const searchLower = search.toLowerCase();
+    const matchSearch = (p.name || '').toLowerCase().includes(searchLower) || 
+                        (p.imeiSku || '').toLowerCase().includes(searchLower);
+    const matchCat = categoryFilter ? p.category === categoryFilter : true;
+    return matchSearch && matchCat;
+  });
 
   return (
     <div>

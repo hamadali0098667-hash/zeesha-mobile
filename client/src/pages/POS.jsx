@@ -111,7 +111,13 @@ const POS = () => {
     } catch (err) { showToast('❌ ' + (err.response?.data?.message || 'Error processing sale')); }
   };
 
-  const filtered = products.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.imeiSku?.includes(search) || p.category.toLowerCase().includes(search.toLowerCase()));
+  const filtered = products.filter(p => {
+    const searchLower = search.toLowerCase();
+    const matchName = (p.name || '').toLowerCase().includes(searchLower);
+    const matchImei = (p.imeiSku || '').toLowerCase().includes(searchLower);
+    const matchCat = (p.category || '').toLowerCase().includes(searchLower);
+    return matchName || matchImei || matchCat;
+  });
 
   return (
     <div className="flex flex-col lg:flex-row h-auto lg:h-[82vh] gap-6 relative">

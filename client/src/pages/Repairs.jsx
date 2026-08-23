@@ -41,7 +41,7 @@ const Repairs = () => {
   };
 
   const tabs = ['All', 'Received', 'In Progress', 'Completed', 'Delivered'];
-  const filteredRepairs = activeTab === 'All' ? repairs : repairs.filter(r => r.status.toLowerCase() === activeTab.toLowerCase());
+  const filteredRepairs = activeTab === 'All' ? repairs : repairs.filter(r => (r.status || '').toLowerCase() === activeTab.toLowerCase());
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
