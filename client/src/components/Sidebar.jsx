@@ -9,7 +9,7 @@ const Sidebar = () => {
   const [shopSettings, setShopSettings] = useState({ shopName: 'Zeesha Mobile', shopLogo: '' });
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/settings').then(res => {
+    axios.get('https://zeesha-mobile.vercel.app/api/settings').then(res => {
       if(res.data) setShopSettings(res.data);
     }).catch(err => console.log(err));
   }, []);
@@ -30,7 +30,7 @@ const Sidebar = () => {
       <div className="h-20 flex items-center justify-center border-b border-gray-700/50 bg-black/20">
         <FaMobileAlt className="text-3xl text-indigo-400 mr-3" />
         {shopSettings.shopLogo ? (
-          <img src={`http://localhost:5000${shopSettings.shopLogo}`} alt="Logo" className="h-10 object-contain mr-2" />
+          <img src={`https://zeesha-mobile.vercel.app${shopSettings.shopLogo}`} alt="Logo" className="h-10 object-contain mr-2" />
         ) : null}
         <h1 className="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-300 uppercase">{shopSettings.shopName}</h1>
       </div>

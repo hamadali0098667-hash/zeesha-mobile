@@ -20,13 +20,13 @@ const Settings = () => {
 
   const fetchSettings = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/settings', { headers: { Authorization: `Bearer ${user.token}` }});
+      const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/settings', { headers: { Authorization: `Bearer ${user.token}` }});
       if(data) setSettings(data);
     } catch(err) { console.error('Error fetching settings', err); }
   };
 
   const fetchStaff = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/staff', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/staff', { headers: { Authorization: `Bearer ${user.token}` }});
     setStaff(data);
   };
 
@@ -39,13 +39,13 @@ const Settings = () => {
       if (logoFile) {
         const formData = new FormData();
         formData.append('image', logoFile);
-        const uploadRes = await axios.post('http://localhost:5000/api/upload', formData, {
+        const uploadRes = await axios.post('https://zeesha-mobile.vercel.app/api/upload', formData, {
           headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${user.token}` }
         });
         logoUrl = uploadRes.data;
       }
 
-      const { data } = await axios.put('http://localhost:5000/api/settings', { shopName: settings.shopName, shopLogo: logoUrl, currency: settings.currency, invoiceFooter: settings.invoiceFooter, categories: settings.categories }, {
+      const { data } = await axios.put('https://zeesha-mobile.vercel.app/api/settings', { shopName: settings.shopName, shopLogo: logoUrl, currency: settings.currency, invoiceFooter: settings.invoiceFooter, categories: settings.categories }, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setSettings(data);
@@ -61,7 +61,7 @@ const Settings = () => {
   const handleAddStaff = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/staff', newStaff, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.post('https://zeesha-mobile.vercel.app/api/staff', newStaff, { headers: { Authorization: `Bearer ${user.token}` }});
       setShowAddStaff(false);
       setNewStaff({ name: '', email: '', password: '', role: 'cashier' });
       fetchStaff();
@@ -70,7 +70,7 @@ const Settings = () => {
 
   const toggleStatus = async (id, currentStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/staff/${id}`, { isActive: !currentStatus }, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.put(`https://zeesha-mobile.vercel.app/api/staff/${id}`, { isActive: !currentStatus }, { headers: { Authorization: `Bearer ${user.token}` }});
       fetchStaff();
     } catch(err) { alert('Error updating status'); }
   };
@@ -95,7 +95,7 @@ const Settings = () => {
                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Shop Logo</label>
                 <div className="flex items-center gap-6">
                   {(logoFile || settings.shopLogo) ? (
-                    <img src={logoFile ? URL.createObjectURL(logoFile) : `http://localhost:5000${settings.shopLogo}`} alt="Shop Logo" className="h-12 w-12 object-contain bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1" />
+                    <img src={logoFile ? URL.createObjectURL(logoFile) : `https://zeesha-mobile.vercel.app${settings.shopLogo}`} alt="Shop Logo" className="h-12 w-12 object-contain bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1" />
                   ) : (
                     <div className="h-12 w-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-gray-400 border border-dashed border-gray-300 dark:border-gray-600">Logo</div>
                   )}

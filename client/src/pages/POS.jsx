@@ -17,11 +17,11 @@ const POS = () => {
   useEffect(() => { fetchProducts(); fetchCustomers(); }, []);
 
   const fetchProducts = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/products', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/products', { headers: { Authorization: `Bearer ${user.token}` }});
     setProducts(data);
   };
   const fetchCustomers = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/customers', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/customers', { headers: { Authorization: `Bearer ${user.token}` }});
     setCustomers(data);
   };
 
@@ -98,7 +98,7 @@ const POS = () => {
 
   const handleCheckout = async () => {
     try {
-      const { data } = await axios.post('http://localhost:5000/api/sales', {
+      const { data } = await axios.post('https://zeesha-mobile.vercel.app/api/sales', {
         customer: selectedCustomer || null, items: cart, subTotal, tax, total, paymentMethod
       }, { headers: { Authorization: `Bearer ${user.token}` }});
       
@@ -137,7 +137,7 @@ const POS = () => {
                   
                   <div className="h-28 mb-3 flex items-center justify-center">
                     {p.image ? (
-                      <img src={`http://localhost:5000${p.image}`} alt={p.name} className="max-h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300" />
+                      <img src={`https://zeesha-mobile.vercel.app${p.image}`} alt={p.name} className="max-h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300" />
                     ) : (
                       <FaBox className="text-5xl text-gray-200 dark:text-gray-600 group-hover:text-indigo-200 transition-colors" />
                     )}

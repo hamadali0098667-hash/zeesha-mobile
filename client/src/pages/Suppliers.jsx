@@ -12,14 +12,14 @@ const Suppliers = () => {
   useEffect(() => { fetchSuppliers(); }, []);
 
   const fetchSuppliers = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/suppliers', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/suppliers', { headers: { Authorization: `Bearer ${user.token}` }});
     setSuppliers(data);
   };
 
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/suppliers', formData, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.post('https://zeesha-mobile.vercel.app/api/suppliers', formData, { headers: { Authorization: `Bearer ${user.token}` }});
       setShowAdd(false); setFormData({name:'', contact:'', address:''});
       fetchSuppliers();
     } catch(err) { alert('Error adding supplier'); }

@@ -19,7 +19,7 @@ const Inventory = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/products', { headers: { Authorization: `Bearer ${user.token}` }});
+      const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/products', { headers: { Authorization: `Bearer ${user.token}` }});
       setProducts(data); setLoading(false);
     } catch (error) { setLoading(false); }
   };
@@ -32,11 +32,11 @@ const Inventory = () => {
       if (imageFile) {
         const formData = new FormData();
         formData.append('image', imageFile);
-        const res = await axios.post('http://localhost:5000/api/upload', formData, { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${user.token}` }});
+        const res = await axios.post('https://zeesha-mobile.vercel.app/api/upload', formData, { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${user.token}` }});
         imageUrl = res.data;
       }
       const productToSave = { ...newProduct, image: imageUrl };
-      await axios.post('http://localhost:5000/api/products', productToSave, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.post('https://zeesha-mobile.vercel.app/api/products', productToSave, { headers: { Authorization: `Bearer ${user.token}` }});
       setShowAddForm(false); setNewProduct({ name: '', brand: '', model: '', imeiSku: '', category: '', costPrice: 0, salePrice: 0, stockQty: 0, lowStockThreshold: 5, image: '' });
       setImageFile(null);
       fetchProducts();
@@ -46,7 +46,7 @@ const Inventory = () => {
 
   const deleteProduct = async (id) => {
     if (window.confirm('Delete product?')) {
-      try { await axios.delete(`http://localhost:5000/api/products/${id}`, { headers: { Authorization: `Bearer ${user.token}` }}); fetchProducts(); }
+      try { await axios.delete(`https://zeesha-mobile.vercel.app/api/products/${id}`, { headers: { Authorization: `Bearer ${user.token}` }}); fetchProducts(); }
       catch (err) { alert('Error deleting product'); }
     }
   };
@@ -144,7 +144,7 @@ const Inventory = () => {
                   <tr key={p._id} className="hover:bg-gray-50 dark:bg-gray-900 transition-colors">
                       <td className="px-6 py-4 flex items-center gap-4">
                          {p.image ? (
-                           <img src={`http://localhost:5000${p.image}`} alt={p.name} className="h-12 w-12 object-cover rounded-lg border border-gray-200 dark:border-gray-700" />
+                           <img src={`https://zeesha-mobile.vercel.app${p.image}`} alt={p.name} className="h-12 w-12 object-cover rounded-lg border border-gray-200 dark:border-gray-700" />
                          ) : (
                            <div className="h-12 w-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-gray-400">
                              <FaBoxOpen className="text-xl" />

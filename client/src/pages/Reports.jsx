@@ -15,11 +15,11 @@ const Reports = () => {
 
   const fetchData = async () => {
     try {
-      const salesRes = await axios.get('http://localhost:5000/api/sales', { headers: { Authorization: `Bearer ${user.token}` }});
+      const salesRes = await axios.get('https://zeesha-mobile.vercel.app/api/sales', { headers: { Authorization: `Bearer ${user.token}` }});
       setSales(salesRes.data);
-      const prodRes = await axios.get('http://localhost:5000/api/products', { headers: { Authorization: `Bearer ${user.token}` }});
+      const prodRes = await axios.get('https://zeesha-mobile.vercel.app/api/products', { headers: { Authorization: `Bearer ${user.token}` }});
       setProducts(prodRes.data);
-      const purRes = await axios.get('http://localhost:5000/api/purchases', { headers: { Authorization: `Bearer ${user.token}` }});
+      const purRes = await axios.get('https://zeesha-mobile.vercel.app/api/purchases', { headers: { Authorization: `Bearer ${user.token}` }});
       setPurchases(purRes.data);
     } catch(err) { console.error(err); }
   };

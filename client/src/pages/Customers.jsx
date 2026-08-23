@@ -11,14 +11,14 @@ const Customers = () => {
   useEffect(() => { fetchCustomers(); }, []);
 
   const fetchCustomers = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/customers', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/customers', { headers: { Authorization: `Bearer ${user.token}` }});
     setCustomers(data);
   };
 
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/customers', formData, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.post('https://zeesha-mobile.vercel.app/api/customers', formData, { headers: { Authorization: `Bearer ${user.token}` }});
       setShowAdd(false);
       setFormData({name:'', phone:'', address:''});
       fetchCustomers();
@@ -34,7 +34,7 @@ const Customers = () => {
     setLoadingHistory(true);
     setSelectedCustomer(id);
     try {
-      const { data } = await axios.get(`http://localhost:5000/api/customers/${id}/history`, { headers: { Authorization: `Bearer ${user.token}` }});
+      const { data } = await axios.get(`https://zeesha-mobile.vercel.app/api/customers/${id}/history`, { headers: { Authorization: `Bearer ${user.token}` }});
       setHistory(data);
     } catch(err) { alert('Error fetching history'); }
     setLoadingHistory(false);

@@ -21,22 +21,22 @@ const Purchases = () => {
   }, []);
 
   const fetchPurchases = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/purchases', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/purchases', { headers: { Authorization: `Bearer ${user.token}` }});
     setPurchases(data);
   };
   const fetchSuppliers = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/suppliers', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/suppliers', { headers: { Authorization: `Bearer ${user.token}` }});
     setSuppliers(data);
   };
   const fetchProducts = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/products', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/products', { headers: { Authorization: `Bearer ${user.token}` }});
     setProducts(data);
   };
 
   const handleAddSupplier = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/suppliers', newSupplier, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.post('https://zeesha-mobile.vercel.app/api/suppliers', newSupplier, { headers: { Authorization: `Bearer ${user.token}` }});
       setShowAddSupplier(false);
       setNewSupplier({ name: '', contact: '', address: '' });
       fetchSuppliers();
@@ -48,7 +48,7 @@ const Purchases = () => {
     try {
       const items = [{ product: newPurchase.product, quantity: newPurchase.quantity, cost: newPurchase.cost }];
       const totalCost = newPurchase.quantity * newPurchase.cost;
-      await axios.post('http://localhost:5000/api/purchases', { supplier: newPurchase.supplier, items, totalCost }, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.post('https://zeesha-mobile.vercel.app/api/purchases', { supplier: newPurchase.supplier, items, totalCost }, { headers: { Authorization: `Bearer ${user.token}` }});
       setShowAddPurchase(false);
       fetchPurchases();
     } catch(err) { alert('Error adding purchase'); }

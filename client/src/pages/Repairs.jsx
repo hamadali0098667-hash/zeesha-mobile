@@ -15,18 +15,18 @@ const Repairs = () => {
   }, []);
 
   const fetchRepairs = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/repairs', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/repairs', { headers: { Authorization: `Bearer ${user.token}` }});
     setRepairs(data);
   };
   const fetchCustomers = async () => {
-    const { data } = await axios.get('http://localhost:5000/api/customers', { headers: { Authorization: `Bearer ${user.token}` }});
+    const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/customers', { headers: { Authorization: `Bearer ${user.token}` }});
     setCustomers(data);
   };
 
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/repairs', newRepair, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.post('https://zeesha-mobile.vercel.app/api/repairs', newRepair, { headers: { Authorization: `Bearer ${user.token}` }});
       setShowAddForm(false);
       fetchRepairs();
     } catch (err) { alert('Error adding repair'); }
@@ -34,7 +34,7 @@ const Repairs = () => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/repairs/${id}`, { status }, { headers: { Authorization: `Bearer ${user.token}` }});
+      await axios.put(`https://zeesha-mobile.vercel.app/api/repairs/${id}`, { status }, { headers: { Authorization: `Bearer ${user.token}` }});
       fetchRepairs();
     } catch (err) { alert('Error updating status'); }
   };

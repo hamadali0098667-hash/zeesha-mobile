@@ -16,7 +16,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/dashboard', { headers: { Authorization: `Bearer ${user.token}` }});
+        const { data } = await axios.get('https://zeesha-mobile.vercel.app/api/dashboard', { headers: { Authorization: `Bearer ${user.token}` }});
         setStats(data);
       } catch (error) { console.error(error); }
     };
