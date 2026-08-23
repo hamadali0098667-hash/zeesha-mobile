@@ -95,7 +95,7 @@ const Settings = () => {
                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Shop Logo</label>
                 <div className="flex items-center gap-6">
                   {(logoFile || settings.shopLogo) ? (
-                    <img src={logoFile ? URL.createObjectURL(logoFile) : `https://zeesha-mobile.vercel.app${settings.shopLogo}`} alt="Shop Logo" className="h-12 w-12 object-contain bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1" />
+                    <img src={logoFile ? URL.createObjectURL(logoFile) : (settings.shopLogo?.startsWith('data:') ? settings.shopLogo : `https://zeesha-mobile.vercel.app${settings.shopLogo}`)} alt="Shop Logo" className="h-12 w-12 object-contain bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1" />
                   ) : (
                     <div className="h-12 w-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-gray-400 border border-dashed border-gray-300 dark:border-gray-600">Logo</div>
                   )}

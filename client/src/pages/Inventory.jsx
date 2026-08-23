@@ -144,7 +144,7 @@ const Inventory = () => {
                   <tr key={p._id} className="hover:bg-gray-50 dark:bg-gray-900 transition-colors">
                       <td className="px-6 py-4 flex items-center gap-4">
                          {p.image ? (
-                           <img src={`https://zeesha-mobile.vercel.app${p.image}`} alt={p.name} className="h-12 w-12 object-cover rounded-lg border border-gray-200 dark:border-gray-700" />
+                           <img src={{p.image?.startsWith('data:') ? p.image : `https://zeesha-mobile.vercel.app${p.image}`}} alt={p.name} className="h-12 w-12 object-cover rounded-lg border border-gray-200 dark:border-gray-700" />
                          ) : (
                            <div className="h-12 w-12 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-gray-400">
                              <FaBoxOpen className="text-xl" />
