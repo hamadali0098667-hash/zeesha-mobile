@@ -7,7 +7,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [globalSettings, setGlobalSettings] = useState({ currency: ', shopName: 'Zeesha Mobile', shopLogo: '', categories: [] });
+  const [globalSettings, setGlobalSettings] = useState({ currency: '$', shopName: 'Zeesha Mobile', shopLogo: '', categories: [] });
   const navigate = useNavigate();
 
   useEffect(() => {
