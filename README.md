@@ -1,5 +1,7 @@
 # Zeesha Mobile - Mobile Shop Management System
 
+?? **Live Application URL:** [https://zeesha-mobile-1.vercel.app](https://zeesha-mobile-1.vercel.app)
+
 A full-stack MERN (MongoDB, Express, React, Node.js) application for managing a mobile phone shop's operations.
 
 ## Features
@@ -61,3 +63,4 @@ A full-stack MERN (MongoDB, Express, React, Node.js) application for managing a 
 ## Default Admin Credentials
 - **Email**: admin@zeeshamobile.com
 - **Password**: password123
+
