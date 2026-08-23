@@ -112,7 +112,7 @@ const POS = () => {
   const filtered = products.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.imeiSku?.includes(search) || p.category.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="flex h-[82vh] gap-6 relative">
+    <div className="flex flex-col lg:flex-row h-auto lg:h-[82vh] gap-6 relative">
       {toast && <div className="absolute top-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-2xl z-50 text-lg font-medium animate-bounce flex items-center gap-2"><FaCheckCircle className="text-green-400"/> {toast}</div>}
       
       <div className="flex-[2] bg-white dark:bg-gray-800 rounded-2xl shadow-xl flex flex-col overflow-hidden border border-gray-100 dark:border-gray-700">
@@ -155,7 +155,7 @@ const POS = () => {
         </div>
       </div>
       
-      <div className="flex-1 bg-white dark:bg-gray-800 rounded-2xl shadow-xl flex flex-col border border-gray-100 dark:border-gray-700 overflow-hidden min-w-[360px]">
+      <div className="flex-1 bg-white dark:bg-gray-800 rounded-2xl shadow-xl flex flex-col border border-gray-100 dark:border-gray-700 overflow-hidden min-w-0 w-full lg:w-auto lg:min-w-[360px]">
         <div className="p-6 bg-gray-900 text-white flex items-center justify-between">
           <h2 className="text-xl font-bold flex items-center gap-2"><FaShoppingCart className="text-indigo-400"/> Current Bill</h2>
           <span className="bg-white dark:bg-gray-800/20 px-3 py-1 rounded-lg text-sm font-bold">{cart.reduce((a,b)=>a+b.quantity,0)} Items</span>

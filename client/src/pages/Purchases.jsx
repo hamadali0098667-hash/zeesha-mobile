@@ -65,11 +65,11 @@ const Purchases = () => {
         </div>
         
         {showAddSupplier && (
-          <form onSubmit={handleAddSupplier} className="mb-4 grid grid-cols-3 gap-4 bg-gray-50 dark:bg-gray-900 p-4 rounded">
+          <form onSubmit={handleAddSupplier} className="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4 bg-gray-50 dark:bg-gray-900 p-4 rounded">
             <input required type="text" placeholder="Name" className="border p-2" value={newSupplier.name} onChange={e=>setNewSupplier({...newSupplier, name: e.target.value})} />
             <input required type="text" placeholder="Contact" className="border p-2" value={newSupplier.contact} onChange={e=>setNewSupplier({...newSupplier, contact: e.target.value})} />
             <input type="text" placeholder="Address" className="border p-2" value={newSupplier.address} onChange={e=>setNewSupplier({...newSupplier, address: e.target.value})} />
-            <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded col-span-3">Save Supplier</button>
+            <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded col-span-1 md:col-span-3">Save Supplier</button>
           </form>
         )}
 
@@ -90,7 +90,7 @@ const Purchases = () => {
         </div>
 
         {showAddPurchase && (
-          <form onSubmit={handleAddPurchase} className="mb-4 grid grid-cols-4 gap-4 bg-gray-50 dark:bg-gray-900 p-4 rounded">
+          <form onSubmit={handleAddPurchase} className="mb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 bg-gray-50 dark:bg-gray-900 p-4 rounded">
             <select required className="border p-2" value={newPurchase.supplier} onChange={e=>setNewPurchase({...newPurchase, supplier: e.target.value})}>
               <option value="">Select Supplier</option>
               {suppliers.map(s => <option key={s._id} value={s._id}>{s.name}</option>)}
@@ -101,11 +101,11 @@ const Purchases = () => {
             </select>
             <input required type="number" placeholder="Quantity" className="border p-2" value={newPurchase.quantity} onChange={e=>setNewPurchase({...newPurchase, quantity: e.target.value})} />
             <input required type="number" placeholder="Cost Per Unit" className="border p-2" value={newPurchase.cost} onChange={e=>setNewPurchase({...newPurchase, cost: e.target.value})} />
-            <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded col-span-4">Complete Restock & Add to Inventory</button>
+            <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded col-span-1 md:col-span-2 lg:col-span-4">Complete Restock & Add to Inventory</button>
           </form>
         )}
 
-        <table className="min-w-full divide-y divide-gray-200 border-t mt-4">
+        <div className="overflow-x-auto w-full"><table className="min-w-full divide-y divide-gray-200 border-t mt-4">
           <thead className="bg-gray-50 dark:bg-gray-900">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Date</th>
@@ -122,7 +122,7 @@ const Purchases = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
   );

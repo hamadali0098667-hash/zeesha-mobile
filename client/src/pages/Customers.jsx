@@ -48,7 +48,7 @@ const Customers = () => {
       </div>
 
       {showAdd && (
-        <form onSubmit={handleAdd} className="bg-white dark:bg-gray-800 p-4 shadow rounded mb-6 flex gap-4">
+        <form onSubmit={handleAdd} className="bg-white dark:bg-gray-800 p-4 shadow rounded mb-6 flex flex-col md:flex-row gap-4">
           <input required type="text" placeholder="Name" className="border p-2 flex-1" value={formData.name} onChange={e=>setFormData({...formData, name: e.target.value})} />
           <input required type="text" placeholder="Phone" className="border p-2 flex-1" value={formData.phone} onChange={e=>setFormData({...formData, phone: e.target.value})} />
           <input type="text" placeholder="Address" className="border p-2 flex-1" value={formData.address} onChange={e=>setFormData({...formData, address: e.target.value})} />

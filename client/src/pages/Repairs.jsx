@@ -49,7 +49,7 @@ const Repairs = () => {
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleAdd} className="bg-white dark:bg-gray-800 p-4 shadow rounded mb-6 grid grid-cols-2 gap-4">
+        <form onSubmit={handleAdd} className="bg-white dark:bg-gray-800 p-4 shadow rounded mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <select required className="border p-2" onChange={e => setNewRepair({...newRepair, customer: e.target.value})}>
             <option value="">Select Customer</option>
             {customers.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
@@ -63,7 +63,7 @@ const Repairs = () => {
 
       <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md">
         {repairs.length === 0 && <p className="p-4 text-center">No repair jobs found.</p>}
-        <table className="min-w-full divide-y divide-gray-200">
+        <div className="overflow-x-auto w-full"><table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50 dark:bg-gray-900">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Customer</th>
@@ -90,7 +90,7 @@ const Repairs = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       </div>
     </div>
   );

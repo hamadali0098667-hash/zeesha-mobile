@@ -43,7 +43,7 @@ const Reports = () => {
           <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Total Sales Volume: <span className="text-green-600">${totalSales.toFixed(2)}</span></h2>
           <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm">Overview of all recorded transactions.</p>
           
-          <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
             <table className="w-full text-left text-sm">
               <thead className="bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
                 <tr><th className="p-3">Date</th><th className="p-3">Customer</th><th className="p-3">Cashier</th><th className="p-3 text-right">Total</th></tr>
@@ -91,7 +91,7 @@ const Reports = () => {
           <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">Total Purchases Volume: <span className="text-indigo-600">${purchases.reduce((a, p) => a + p.totalCost, 0).toFixed(2)}</span></h2>
           <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm">Overview of all stock-in transactions grouped by supplier.</p>
           
-          <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
             <table className="w-full text-left text-sm">
               <thead className="bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
                 <tr><th className="p-3">Date</th><th className="p-3">Supplier Name</th><th className="p-3">Items Count</th><th className="p-3 text-right">Total Cost</th></tr>
