@@ -137,7 +137,7 @@ const POS = () => {
                   
                   <div className="h-28 mb-3 flex items-center justify-center">
                     {p.image ? (
-                      <img src={{p.image?.startsWith('data:') ? p.image : `https://zeesha-mobile.vercel.app${p.image}`}} alt={p.name} className="max-h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300" />
+                      <img src={p.image?.startsWith('data:') ? p.image : `https://zeesha-mobile.vercel.app${p.image}`} alt={p.name} className="max-h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300" />
                     ) : (
                       <FaBox className="text-5xl text-gray-200 dark:text-gray-600 group-hover:text-indigo-200 transition-colors" />
                     )}
