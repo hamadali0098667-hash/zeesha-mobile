@@ -81,9 +81,13 @@ const Reports = () => {
       
       <div className="flex justify-between items-center mb-6">
         <div className="flex gap-4 overflow-x-auto pb-2">
-        <button onClick={()=>setTab('sales')} className={`px-4 py-2 rounded-lg font-bold transition-colors ${tab==='sales' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-500'}`}>Sales Report</button>
-        <button onClick={()=>setTab('stock')} className={`px-4 py-2 rounded-lg font-bold transition-colors ${tab==='stock' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-500'}`}>Stock & Inventory</button>
-        <button onClick={()=>setTab('purchases')} className={`px-4 py-2 rounded-lg font-bold transition-colors ${tab==='purchases' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-500'}`}>Supplier Purchases</button>
+          <button onClick={()=>setTab('sales')} className={`px-4 py-2 rounded-lg font-bold transition-colors ${tab==='sales' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-500'}`}>Sales Report</button>
+          <button onClick={()=>setTab('stock')} className={`px-4 py-2 rounded-lg font-bold transition-colors ${tab==='stock' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-500'}`}>Stock & Inventory</button>
+          <button onClick={()=>setTab('purchases')} className={`px-4 py-2 rounded-lg font-bold transition-colors ${tab==='purchases' ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-gray-800 text-gray-500'}`}>Supplier Purchases</button>
+        </div>
+        <button onClick={exportPDF} className="bg-green-600 text-white px-4 py-2 rounded-lg font-bold shadow-md hover:bg-green-700 transition whitespace-nowrap">
+          Export PDF
+        </button>
       </div>
 
       {tab === 'sales' && (
