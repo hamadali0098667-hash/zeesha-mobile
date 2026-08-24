@@ -31,6 +31,40 @@ const Settings = () => {
     setStaff(data);
   };
 
+    const compressImage = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 300;
+          const MAX_HEIGHT = 300;
+          let width = img.width;
+          let height = img.height;
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', 0.7));
+        };
+      };
+    });
+  };
+
   const handleSaveSettings = async (e) => {
     e.preventDefault();
     setUploadingLogo(true);
@@ -38,15 +72,18 @@ const Settings = () => {
 
     try {
       if (logoFile) {
-        const formData = new FormData();
-        formData.append('image', logoFile);
-        const uploadRes = await axios.post('https://zeesha-mobile.vercel.app/api/upload', formData, {
-          headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${user.token}` }
-        });
-        logoUrl = uploadRes.data;
+        // Compress image locally instead of uploading a huge file
+        logoUrl = await compressImage(logoFile);
       }
 
-      const { data } = await axios.put('https://zeesha-mobile.vercel.app/api/settings', { shopName: settings.shopName, shopLogo: logoUrl, currency: settings.currency, invoiceFooter: settings.invoiceFooter, categories: settings.categories }, {
+      const { data } = await axios.put('https://zeesha-mobile.vercel.app/api/settings', { 
+        shopName: settings.shopName, 
+        shopLogo: logoUrl, 
+        currency: settings.currency, 
+        sidebarPreference: settings.sidebarPreference,
+        invoiceFooter: settings.invoiceFooter, 
+        categories: settings.categories 
+      }, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setSettings(data);
