@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const Reports = () => {
   const { user, globalSettings } = useContext(AuthContext);
@@ -36,7 +36,7 @@ const Reports = () => {
     doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 30);
 
     if (tab === 'sales') {
-      doc.autoTable({
+      autoTable(doc, {
         startY: 40,
         head: [['Date', 'Invoice ID', 'Customer', 'Items', 'Total']],
         body: sales.map(s => [
@@ -48,7 +48,7 @@ const Reports = () => {
         ])
       });
     } else if (tab === 'stock') {
-      doc.autoTable({
+      autoTable(doc, {
         startY: 40,
         head: [['Product', 'Category', 'Stock', 'Value']],
         body: products.map(p => [
@@ -59,7 +59,7 @@ const Reports = () => {
         ])
       });
     } else {
-      doc.autoTable({
+      autoTable(doc, {
         startY: 40,
         head: [['Date', 'Supplier', 'Items', 'Total Cost']],
         body: purchases.map(p => [

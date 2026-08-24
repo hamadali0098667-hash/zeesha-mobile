@@ -53,17 +53,17 @@ const POS = () => {
   const generateInvoice = (saleData, customerName) => {
     const doc = new jsPDF();
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(24); doc.text('ZEESHA MOBILE', 105, 20, null, null, 'center');
+    doc.setFontSize(24); doc.text('ZEESHA MOBILE', 105, 20, { align: 'center' });
     doc.setFontSize(12); doc.setFont('helvetica', 'normal');
-    doc.text('Official Sales Receipt', 105, 28, null, null, 'center');
+    doc.text('Official Sales Receipt', 105, 28, { align: 'center' });
     doc.line(20, 35, 190, 35);
     
     doc.setFontSize(10);
     doc.text(`Date: ${new Date().toLocaleString()}`, 20, 45);
-    doc.text(`Receipt #: ${saleData._id.substring(0,8).toUpperCase()}`, 140, 45);
+    doc.text(`Receipt #: ${(saleData._id || 'unknown').substring(0,8).toUpperCase()}`, 140, 45);
     doc.text(`Customer: ${customerName || 'Walk-in Customer'}`, 20, 52);
     doc.text(`Payment: ${saleData.paymentMethod}`, 140, 52);
-    doc.text(`Cashier: ${user.name}`, 20, 59);
+    doc.text(`Cashier: ${user?.name || 'Cashier'}`, 20, 59);
     
     doc.line(20, 65, 190, 65);
     doc.setFont('helvetica', 'bold');
@@ -94,10 +94,10 @@ const POS = () => {
     doc.text('TOTAL:', 140, y+33); doc.text(`${saleData.total}`, 175, y+33);
     
     doc.setFontSize(10); doc.setFont('helvetica', 'italic');
-    doc.text('Thank you for shopping at Zeesha Mobile!', 105, y+50, null, null, 'center');
-    doc.text('Software developed by Zeesha Mobile Systems.', 105, y+55, null, null, 'center');
+    doc.text('Thank you for shopping at Zeesha Mobile!', 105, y+50, { align: 'center' });
+    doc.text('Software developed by Zeesha Mobile Systems.', 105, y+55, { align: 'center' });
     
-    doc.save(`Receipt_${saleData._id.substring(0,8)}.pdf`);
+    doc.save(`Receipt_${(saleData._id || 'unknown').substring(0,8)}.pdf`);
   };
 
   const handleCheckout = async () => {
