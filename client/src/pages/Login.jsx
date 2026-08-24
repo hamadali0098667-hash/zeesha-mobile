@@ -34,8 +34,8 @@ const Login = () => {
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
     if (role === 'Admin') { setEmail('admin@zeeshamobile.com'); setPassword('password123'); }
-    if (role === 'Manager') { setEmail('ahmed@123'); setPassword('password123'); }
-    if (role === 'Cashier') { setEmail('ali@123'); setPassword('password123'); }
+    if (role === 'Manager') { setEmail('ahmed@123'); setPassword('123'); }
+    if (role === 'Cashier') { setEmail('ali@123'); setPassword('123'); }
     // Auto-fill for testing
   };
 
