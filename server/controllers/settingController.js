@@ -16,6 +16,7 @@ const updateSettings = asyncHandler(async (req, res) => {
   settings.currency = req.body.currency || settings.currency;
   settings.invoiceFooter = req.body.invoiceFooter || settings.invoiceFooter;
   settings.categories = req.body.categories || settings.categories;
+  settings.sidebarPreference = req.body.sidebarPreference || settings.sidebarPreference;
   
   await settings.save();
   res.json(settings);
