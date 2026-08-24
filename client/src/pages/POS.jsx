@@ -45,6 +45,8 @@ const POS = () => {
   const removeFromCart = (id) => setCart(cart.filter(x => x.product !== id));
 
   const subTotal = cart.reduce((acc, item) => acc + item.salePrice * item.quantity, 0);
+  const tax = (subTotal * (Number(taxRate) || 0)) / 100;
+  const total = subTotal + tax - (Number(discount) || 0);
    
   
 
