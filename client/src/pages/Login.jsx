@@ -33,10 +33,10 @@ const Login = () => {
 
   const handleRoleSelect = (role) => {
     setSelectedRole(role);
-    if (role === 'Admin') setEmail('admin@zeeshamobile.com');
-    if (role === 'Manager') setEmail('ahm@shop.com');
-    if (role === 'Cashier') setEmail('ali@shop.com');
-    setPassword(''); // Reset password for security when switching roles
+    if (role === 'Admin') { setEmail('admin@zeeshamobile.com'); setPassword('password123'); }
+    if (role === 'Manager') { setEmail('ahmed@123'); setPassword('password123'); }
+    if (role === 'Cashier') { setEmail('ali@123'); setPassword('password123'); }
+    // Auto-fill for testing
   };
 
   const handleSubmit = async (e) => {
